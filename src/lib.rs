@@ -1,4 +1,5 @@
 #![cfg_attr(all(not(feature = "std"), not(test)), no_std)]
+#![no_main]
 
 //! # HYDRA Messages
 //!
