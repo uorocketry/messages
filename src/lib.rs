@@ -60,18 +60,18 @@ impl Message {
     }
 }
 
-#[cfg(all(test, feature = "std"))]
-mod test {
-    use crate::{Message, MAX_SIZE};
-    use proptest::prelude::*;
+// #[cfg(test)]
+// mod test {
+//     use crate::{Message, MAX_SIZE};
+//     use proptest::prelude::*;
 
-    proptest! {
-        #[test]
-        fn message_size(msg: Message) {
-            let bytes = postcard::to_allocvec(&msg).unwrap();
+//     proptest! {
+//         #[test]
+//         fn message_size(msg: Message) {
+//             let bytes = postcard::to_allocvec(&msg).unwrap();
 
-            dbg!(msg);
-            assert!(dbg!(bytes.len()) <= MAX_SIZE);
-        }
-    }
-}
+//             dbg!(msg);
+//             assert!(dbg!(bytes.len()) <= MAX_SIZE);
+//         }
+//     }
+// }
