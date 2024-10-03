@@ -27,4 +27,4 @@ postcard = { version = "1.0.4", features = ["alloc"] }
 
 [features]
 default = ["mavlink/embedded-hal-02", "mavlink/uorocketry"]
-std = ["mavlink/std", "mavlink/tcp", "mavlink/udp", "mavlink/direct-serial", "mavlink/serde", "dep:proptest", "dep:proptest-derive"]
+std = ["chrono/std", "mavlink/std", "mavlink/tcp", "mavlink/udp", "mavlink/direct-serial", "mavlink/serde", "dep:proptest", "dep:proptest-derive"]
