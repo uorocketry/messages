@@ -3,7 +3,7 @@ use quote::quote;
 
 /// Simple macro to easily add derives that are common for the messages crates.
 #[proc_macro_attribute]
-pub fn common_derives(args: TokenStream, input: TokenStream) -> TokenStream {
+pub fn  common_derives(args: TokenStream, input: TokenStream) -> TokenStream {
     let mut output = TokenStream::from(quote! {
         #[derive(serde::Serialize, serde::Deserialize, Clone, Debug)]
         #[cfg_attr(feature = "ts", derive(ts_rs::TS))]

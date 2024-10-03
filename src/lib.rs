@@ -1,7 +1,7 @@
 #![cfg_attr(all(not(feature = "std"), not(test)), no_std)]
 #![no_main]
 
-//! # HYDRA Messages
+//! # Messages
 //!
 //! This crate contains all the message definitions that will be used for inter-board communication
 //! and ground-station communication.
@@ -29,7 +29,7 @@ pub use logging::{ErrorContext, Event, Log, LogLevel};
 
 /// Topmost message. Encloses all the other possible messages, and is the only thing that should
 /// be sent over the wire.
-#[common_derives("NoFormat")]
+#[common_derives(NoFormat)]
 pub struct Message {
     pub timestamp: NaiveDateTime,
 
@@ -60,7 +60,7 @@ impl Message {
     }
 }
 
-#[cfg(all(test, feature = "std"))]
+#[cfg(test)]
 mod test {
     use crate::{Message, MAX_SIZE};
     use proptest::prelude::*;
