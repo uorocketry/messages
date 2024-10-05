@@ -1,0 +1,7 @@
+# Seeds for failure cases proptest has generated in the past. It is
+# automatically read and these particular cases re-run before any
+# novel cases are generated.
+#
+# It is recommended to check this file in to source control so that
+# everyone who runs the test benefits from these saved cases.
+cc 61b4824c090c01db4b55ba9e9fcc0fb7bbb6843574b2b802fbc377e8f839c62d # shrinks to msg = Message { timestamp: FormattedNaiveDateTime(-0001-01-01T00:00:00.000000001), node: PressureBoard, data: Sensor(Sensor { data: EkfNavAcc(EkfNavAcc { status: EkfStatus { status: 268435456 }, velocity_std_dev: Some([0.0, 0.0, 0.0]), position_std_dev: Some([-0.0, 0.0, 0.0]) }) }) }
