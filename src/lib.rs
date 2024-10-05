@@ -13,7 +13,7 @@ use crate::state::State;
 use derive_more::From;
 /// This is to help control versions.
 pub use mavlink;
-use chrono::NaiveDateTime;
+use chrono::{NaiveDate, FixedOffset, NaiveDateTime};
 use messages_proc_macros_lib::common_derives;
 
 pub mod command;
@@ -29,6 +29,9 @@ pub use logging::{ErrorContext, Event, Log, LogLevel};
 use defmt::Format;
 
 #[derive(serde::Serialize, serde::Deserialize, Clone, Debug)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS))]
+#[cfg_attr(feature = "ts", ts(export))]
+#[cfg_attr(all(feature = "std", test), derive(proptest_derive::Arbitrary))]
 pub struct FormattedNaiveDateTime(pub NaiveDateTime);
 
 impl Format for FormattedNaiveDateTime {
@@ -39,9 +42,12 @@ impl Format for FormattedNaiveDateTime {
 
 /// Topmost message. Encloses all the other possible messages, and is the only thing that should
 /// be sent over the wire.
-#[common_derives(NoFormat)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, Debug)]
+#[cfg_attr(feature = "ts", derive(ts_rs::TS))]
+#[cfg_attr(feature = "ts", ts(export))]
+#[cfg_attr(all(feature = "std", test), derive(proptest_derive::Arbitrary))]
 pub struct Message {
-    pub timestamp: NaiveDateTime,
+    pub timestamp: FormattedNaiveDateTime,
 
     /// The original sender of this message.
     pub node: Node,
@@ -61,7 +67,7 @@ pub enum Data {
 }
 
 impl Message {
-    pub fn new(timestamp: NaiveDateTime, node: Node, data: impl Into<Data>) -> Self {
+    pub fn new(timestamp: FormattedNaiveDateTime, node: Node, data: impl Into<Data>) -> Self {
         Message {
             timestamp,
             node,
