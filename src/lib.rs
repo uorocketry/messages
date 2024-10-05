@@ -77,7 +77,7 @@ impl Message {
     }
 }
 
-#[cfg(test)]
+#[cfg(all(test, feature = "std"))]
 mod test {
     use crate::{Message, MAX_SIZE};
     use proptest::prelude::*;

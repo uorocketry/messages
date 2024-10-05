@@ -8,7 +8,7 @@ pub fn  common_derives(args: TokenStream, input: TokenStream) -> TokenStream {
         #[derive(serde::Serialize, serde::Deserialize, Clone, Debug)]
         #[cfg_attr(feature = "ts", derive(ts_rs::TS))]
         #[cfg_attr(feature = "ts", ts(export))]
-        #[cfg_attr(std, derive(proptest_derive::Arbitrary))]
+        #[cfg_attr(all(feature = "std", test), derive(proptest_derive::Arbitrary))]
     });
 
     // Allow to omit the defmt::Format derive. Useful if this should be manually implemented.
