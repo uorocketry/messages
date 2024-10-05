@@ -22,9 +22,7 @@ pub mod node;
 pub mod sensor;
 pub mod sensor_status;
 pub mod state;
-use chrono::{NaiveDate, NaiveTime};
-#[cfg(test)]
-use proptest::prelude::*;
+
 pub const MAX_SIZE: usize = 64;
 
 pub use logging::{ErrorContext, Event, Log, LogLevel};
@@ -39,30 +37,11 @@ impl Format for FormattedNaiveDateTime {
     }
 }
 
-#[derive(serde::Serialize, serde::Deserialize, Clone, Debug)]
-pub struct ArbitraryNaiveDateTime(pub FormattedNaiveDateTime);
-
-#[cfg(test)]
-impl Arbitrary for ArbitraryNaiveDateTime {
-    type Parameters = ();
-    type Strategy = BoxedStrategy<Self>;
-
-    fn arbitrary_with(_: Self::Parameters) -> Self::Strategy {
-        (0..=9999i32, 1u32..=12, 1u32..=31, 0u32..24, 0u32..60, 0u32..60, 0u32..1_000_000_000)
-            .prop_map(|(year, month, day, hour, minute, second, nanosecond)| {
-                ArbitraryNaiveDateTime(
-                    FormattedNaiveDateTime(NaiveDate::from_ymd(year, month, day).and_hms_nano(hour, minute, second, nanosecond))
-                )
-            })
-            .boxed()
-    }
-}
-
 /// Topmost message. Encloses all the other possible messages, and is the only thing that should
 /// be sent over the wire.
 #[common_derives(NoFormat)]
 pub struct Message {
-    pub timestamp: ArbitraryNaiveDateTime,
+    pub timestamp: NaiveDateTime,
 
     /// The original sender of this message.
     pub node: Node,
@@ -82,7 +61,7 @@ pub enum Data {
 }
 
 impl Message {
-    pub fn new(timestamp: ArbitraryNaiveDateTime, node: Node, data: impl Into<Data>) -> Self {
+    pub fn new(timestamp: NaiveDateTime, node: Node, data: impl Into<Data>) -> Self {
         Message {
             timestamp,
             node,
