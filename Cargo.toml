@@ -19,8 +19,7 @@ proptest = { version = "1.2.0", optional = true }
 proptest-derive = { version = "0.3.0", optional = true }
 proptest-arbitrary-interop = { version = "0.1.0", optional = true }
 messages-proc-macros-lib = { path = "messages-proc-macros-lib" }
-# chrono = { git = "https://github.com/uorocketry/chrono", features = ["serde", "arbitrary"], default-features = false}
-chrono = { path = "C:\\Users\\noahr\\Documents\\Rocketry\\chrono", features = ["serde", "arbitrary"], default-features = false }
+chrono = { git = "https://github.com/uorocketry/chrono", features = ["serde", "arbitrary"], default-features = false}
 
 [dev-dependencies]
 proptest = "1.2.0"
