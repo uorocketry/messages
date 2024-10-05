@@ -1,8 +1,3 @@
-[env]
-CARGO_MAKE_EXTEND_WORKSPACE_MAKEFILE = true
-
-[config]
-default_to_workspace = false
 
 # -----------------------
 # Host Testing
@@ -10,5 +5,5 @@ default_to_workspace = false
 
 [tasks.test-messages]
 command = "cargo"
-args = ["test", "-p", "messages", "--target", "${CARGO_MAKE_RUST_TARGET_TRIPLE}", "--features", "std", "--no-default-features"]
+args = ["test", "--target", "${CARGO_MAKE_RUST_TARGET_TRIPLE}", "--features", "std", "--no-default-features"]
 env = {RUST_MIN_STACK = "8388608"}
