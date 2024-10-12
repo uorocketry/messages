@@ -22,6 +22,7 @@ pub mod node;
 pub mod sensor;
 pub mod sensor_status;
 pub mod state;
+mod gps;
 
 pub const MAX_SIZE: usize = 64;
 
