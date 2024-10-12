@@ -1,6 +1,6 @@
-use crate::sensor_status::{
+use crate::{gps::Nav, sensor_status::{
     AirStatus, EkfStatus, GpsPositionStatus, GpsVelStatus, ImuStatus, UtcTimeStatus,
-};
+}};
 use derive_more::From;
 use messages_proc_macros_lib::common_derives;
 
@@ -22,7 +22,7 @@ pub enum SensorData {
     EkfNavAcc(EkfNavAcc),
     Imu1(Imu1),
     Imu2(Imu2),
-    NavPosLlh(NavPosLlh),
+    Nav(Nav),
     GpsVel(GpsVel),
     GpsVelAcc(GpsVelAcc),
     GpsPos1(GpsPos1),
@@ -30,13 +30,6 @@ pub enum SensorData {
     GpsPosAcc(GpsPosAcc),
     ResetReason(ResetReason),
     RecoverySensing(RecoverySensing),
-}
-
-#[common_derives]
-pub struct NavPosLlh {
-    pub height_msl: f64,
-    pub longitude: f64,
-    pub latitude: f64,
 }
 
 /* Replace with new health monitor */
