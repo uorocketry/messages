@@ -1,0 +1,9 @@
+# Seeds for failure cases proptest has generated in the past. It is
+# automatically read and these particular cases re-run before any
+# novel cases are generated.
+#
+# It is recommended to check this file in to source control so that
+# everyone who runs the test benefits from these saved cases.
+cc 61b4824c090c01db4b55ba9e9fcc0fb7bbb6843574b2b802fbc377e8f839c62d # shrinks to msg = Message { timestamp: FormattedNaiveDateTime(-0001-01-01T00:00:00.000000001), node: PressureBoard, data: Sensor(Sensor { data: EkfNavAcc(EkfNavAcc { status: EkfStatus { status: 268435456 }, velocity_std_dev: Some([0.0, 0.0, 0.0]), position_std_dev: Some([-0.0, 0.0, 0.0]) }) }) }
+cc 1b5e64b2da76dcb68777a6b6564de7a77d5f4b6ab26e1f36432e2df7d11f828b # shrinks to msg = Message { timestamp: FormattedNaiveDateTime(0000-01-01T00:00:00.000000001), node: PressureBoard, data: Sensor(Sensor { component_id: 0, data: Imu2(Imu2 { temperature: Some(0.0), delta_velocity: Some([0.0, 0.0, 0.0]), delta_angle: Some([0.0, 0.0, 0.0]) }) }) }
+cc dba5d5b40143101de3363dadb069654a4e5b62704479ee3824b993edba0b0efd # shrinks to msg = Message { timestamp: FormattedNaiveDateTime(0000-01-01T00:00:00), node: PressureBoard, data: Sensor(Sensor { component_id: 0, data: SbgData(EkfQuat(EkfQuat { time_stamp: 268435456, quaternion: Some([0.0, 0.0, 0.0, 0.0]), euler_std_dev: Some([0.0, 0.0, 0.0]), status: EkfStatus { status: 268435456 } })) }) }

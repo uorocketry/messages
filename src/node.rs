@@ -5,7 +5,7 @@ use messages_proc_macros_lib::common_derives;
 pub enum Node {
     PressureBoard,
     TemperatureBoard,
-    StrainBoard, 
+    StrainBoard,
 }
 
 impl From<Node> for u16 {

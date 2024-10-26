@@ -7,13 +7,35 @@ use messages_proc_macros_lib::common_derives;
 #[common_derives]
 pub struct Sensor {
     /// Used to differentiate between multiple components on the same sender. Unused right now.
-    // pub component_id: u8,
+    pub component_id: u8,
     pub data: SensorData,
 }
 
 #[common_derives]
 #[derive(From)]
 pub enum SensorData {
+    // UtcTime(UtcTime),
+    // Air(Air),
+    // EkfQuat(EkfQuat),
+    // EkfNav1(EkfNav1),
+    // EkfNav2(EkfNav2),
+    // EkfNavAcc(EkfNavAcc),
+    // Imu1(Imu1),
+    // Imu2(Imu2),
+    NavPosLlh(NavPosLlh),
+    // GpsVel(GpsVel),
+    // GpsVelAcc(GpsVelAcc),
+    // GpsPos1(GpsPos1),
+    // GpsPos2(GpsPos2),
+    // GpsPosAcc(GpsPosAcc),
+    ResetReason(ResetReason),
+    RecoverySensing(RecoverySensing),
+    SbgData(SbgData),
+}
+
+#[common_derives]
+#[derive(From)]
+pub enum SbgData {
     UtcTime(UtcTime),
     Air(Air),
     EkfQuat(EkfQuat),
@@ -22,14 +44,11 @@ pub enum SensorData {
     EkfNavAcc(EkfNavAcc),
     Imu1(Imu1),
     Imu2(Imu2),
-    NavPosLlh(NavPosLlh),
     GpsVel(GpsVel),
     GpsVelAcc(GpsVelAcc),
     GpsPos1(GpsPos1),
     GpsPos2(GpsPos2),
     GpsPosAcc(GpsPosAcc),
-    ResetReason(ResetReason),
-    RecoverySensing(RecoverySensing),
 }
 
 #[common_derives]
@@ -245,7 +264,7 @@ pub struct RecoverySensing {
 impl Sensor {
     pub fn new(data: impl Into<SensorData>) -> Self {
         Sensor {
-            // component_id: 0,
+            component_id: 0,
             data: data.into(),
         }
     }
