@@ -42,6 +42,7 @@ impl Format for FormattedNaiveDateTime {
 /// Topmost message. Encloses all the other possible messages, and is the only thing that should
 /// be sent over the wire.
 #[derive(serde::Serialize, serde::Deserialize, Clone, Debug)]
+#[derive(Format)]
 #[cfg_attr(all(feature = "std", test), derive(proptest_derive::Arbitrary))]
 pub struct Message {
     pub timestamp: FormattedNaiveDateTime,
