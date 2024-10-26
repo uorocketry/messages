@@ -23,7 +23,8 @@ pub mod sensor;
 pub mod sensor_status;
 pub mod state;
 
-pub const MAX_SIZE: usize = 64;
+pub const MAX_SIZE_CAN: usize = 64;
+pub const MAX_SIZE_RADIO: usize = 255;
 
 pub use logging::{ErrorContext, Event, Log, LogLevel};
 use defmt::Format;
@@ -78,7 +79,7 @@ impl Message {
 
 #[cfg(all(test, feature = "std"))]
 mod test {
-    use crate::{Message, MAX_SIZE};
+    use crate::{Message, MAX_SIZE_CAN, MAX_SIZE_RADIO};
     use proptest::prelude::*;
 
     proptest! {
@@ -86,8 +87,24 @@ mod test {
         fn message_size(msg: Message) {
             let bytes = postcard::to_allocvec(&msg).unwrap();
 
-            dbg!(msg);
-            assert!(dbg!(bytes.len()) <= MAX_SIZE);
+            dbg!(msg.clone());
+
+            match msg.data {
+                crate::Data::Sensor(sensor) => {
+                    match sensor.data {
+                        crate::sensor::SensorData::SbgData(_) => {
+                            assert!(bytes.len() <= MAX_SIZE_RADIO);
+                        }
+                        _ => {
+                            assert!(bytes.len() <= MAX_SIZE_CAN);
+                        }
+                    }
+                }
+                _ => {
+                    assert!(bytes.len() <= MAX_SIZE_CAN);
+                }
+            
+            }
         }
     }
 }
