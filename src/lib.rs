@@ -9,10 +9,10 @@ use crate::command::Command;
 use crate::node::Node;
 use crate::sensor::Sensor;
 use crate::state::State;
+use chrono::NaiveDateTime;
 use derive_more::From;
 /// This is to help control versions.
 pub use mavlink;
-use chrono::{NaiveDate, FixedOffset, NaiveDateTime};
 
 use messages_proc_macros_lib::common_derives;
 
@@ -26,12 +26,10 @@ pub mod state;
 pub const MAX_SIZE_CAN: usize = 64;
 pub const MAX_SIZE_RADIO: usize = 255;
 
-pub use logging::{ErrorContext, Event, Log, LogLevel};
 use defmt::Format;
+pub use logging::{ErrorContext, Event, Log, LogLevel};
 
 #[derive(serde::Serialize, serde::Deserialize, Clone, Debug)]
-#[cfg_attr(feature = "ts", derive(ts_rs::TS))]
-#[cfg_attr(feature = "ts", ts(export))]
 #[cfg_attr(all(feature = "std", test), derive(proptest_derive::Arbitrary))]
 pub struct FormattedNaiveDateTime(pub NaiveDateTime);
 
@@ -44,8 +42,6 @@ impl Format for FormattedNaiveDateTime {
 /// Topmost message. Encloses all the other possible messages, and is the only thing that should
 /// be sent over the wire.
 #[derive(serde::Serialize, serde::Deserialize, Clone, Debug)]
-#[cfg_attr(feature = "ts", derive(ts_rs::TS))]
-#[cfg_attr(feature = "ts", ts(export))]
 #[cfg_attr(all(feature = "std", test), derive(proptest_derive::Arbitrary))]
 pub struct Message {
     pub timestamp: FormattedNaiveDateTime,
@@ -103,7 +99,7 @@ mod test {
                 _ => {
                     assert!(bytes.len() <= MAX_SIZE_CAN);
                 }
-            
+
             }
         }
     }

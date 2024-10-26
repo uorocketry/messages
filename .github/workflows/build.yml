@@ -60,6 +60,6 @@ jobs:
         name: "Run Host Tests"
         with:
           command: make
-          args: test-messages
+          args: test
 
 
