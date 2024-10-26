@@ -18,7 +18,7 @@ bitflags = { version = "2.3.1", features = ["serde"] }
 proptest = { version = "1.2.0", optional = true }
 proptest-derive = { version = "0.3.0", optional = true }
 messages-proc-macros-lib = { path = "messages-proc-macros-lib" }
-chrono = {git = "/home/ns/Rocketry/chrono", features = ["serde"], default-features = false}
+chrono = {git = "https://github.com/uorocketry/chrono", features = ["serde"], default-features = false}
 
 [dev-dependencies]
 proptest = "1.2.0"
