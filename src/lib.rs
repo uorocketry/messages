@@ -5,13 +5,11 @@
 //! This crate contains all the message definitions that will be used for inter-board communication
 //! and ground-station communication.
 
-use crate::command::Command;
 use crate::node::Node;
-use crate::sensor::Sensor;
 use crate::state::State;
 use chrono::NaiveDateTime;
 use derive_more::From;
-/// This is to help control versions.
+
 pub use mavlink;
 
 use messages_proc_macros_lib::common_derives;
@@ -42,31 +40,73 @@ impl Format for FormattedNaiveDateTime {
 /// Topmost message. Encloses all the other possible messages, and is the only thing that should
 /// be sent over the wire.
 #[derive(serde::Serialize, serde::Deserialize, Clone, Debug)]
-#[derive(Format)]
-#[cfg_attr(all(feature = "std", test), derive(proptest_derive::Arbitrary))]
-pub struct Message {
+pub struct RadioMessage<'a> {
     pub timestamp: FormattedNaiveDateTime,
 
     /// The original sender of this message.
     pub node: Node,
 
     /// The data contained in this message.
-    pub data: Data,
+    #[serde(borrow)]
+    pub data: RadioData<'a>,
 }
+
+/// Topmost message. Encloses all the other possible messages, and is the only thing that should
+/// be sent over the wire.
+#[derive(serde::Serialize, serde::Deserialize, Clone, Debug)]
+#[cfg_attr(all(feature = "std", test), derive(proptest_derive::Arbitrary))]
+pub struct CanMessage {
+    pub timestamp: FormattedNaiveDateTime,
+
+    /// The original sender of this message.
+    pub node: Node,
+
+    /// The data contained in this message.
+    pub data: CanData,
+}
+
 
 #[common_derives]
 #[derive(From)]
-#[serde(rename_all = "lowercase")]
-pub enum Data {
-    State(State),
-    Sensor(Sensor),
+pub enum Common {
+    ResetReason(sensor::ResetReason),
+    Command(command::Command), 
     Log(Log),
-    Command(Command),
 }
 
-impl Message {
-    pub fn new(timestamp: FormattedNaiveDateTime, node: Node, data: impl Into<Data>) -> Self {
-        Message {
+#[common_derives]
+#[serde(rename_all = "lowercase")]
+pub enum CanData {
+    Common(Common),
+    Temperature(u8, f32), // sensor id, temperature
+    Pressure(u8, f32),
+    Strain(u8, f32),
+}
+
+#[derive(serde::Serialize, serde::Deserialize, Clone, Debug)]
+#[derive(From)]
+#[serde(rename_all = "lowercase")]
+pub enum RadioData<'a> {
+    Common(Common),
+    State(State),
+    Sbg(sensor::SbgData),
+    #[serde(borrow)]
+    Gps(sensor::Gps<'a>),
+}
+
+impl CanMessage {
+    pub fn new(timestamp: FormattedNaiveDateTime, node: Node, data: impl Into<CanData>) -> Self {
+        CanMessage {
+            timestamp,
+            node,
+            data: data.into(),
+        }
+    }
+}
+
+impl<'a> RadioMessage<'a> {
+    pub fn new(timestamp: FormattedNaiveDateTime, node: Node, data: impl Into<RadioData<'a>>) -> Self {
+        RadioMessage {
             timestamp,
             node,
             data: data.into(),
@@ -76,32 +116,17 @@ impl Message {
 
 #[cfg(all(test, feature = "std"))]
 mod test {
-    use crate::{Message, MAX_SIZE_CAN, MAX_SIZE_RADIO};
+    use crate::{CanMessage, MAX_SIZE_CAN, MAX_SIZE_RADIO};
     use proptest::prelude::*;
 
     proptest! {
         #[test]
-        fn message_size(msg: Message) {
+        fn can_message_size(msg: CanMessage) {
             let bytes = postcard::to_allocvec(&msg).unwrap();
 
             dbg!(msg.clone());
 
-            match msg.data {
-                crate::Data::Sensor(sensor) => {
-                    match sensor.data {
-                        crate::sensor::SensorData::SbgData(_) => {
-                            assert!(bytes.len() <= MAX_SIZE_RADIO);
-                        }
-                        _ => {
-                            assert!(bytes.len() <= MAX_SIZE_CAN);
-                        }
-                    }
-                }
-                _ => {
-                    assert!(bytes.len() <= MAX_SIZE_CAN);
-                }
-
-            }
+            assert!(bytes.len() <= MAX_SIZE_CAN);
         }
     }
 }

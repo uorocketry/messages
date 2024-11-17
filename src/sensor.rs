@@ -4,33 +4,119 @@ use crate::sensor_status::{
 use derive_more::From;
 use messages_proc_macros_lib::common_derives;
 
-#[common_derives]
-pub struct Sensor {
-    /// Used to differentiate between multiple components on the same sender. Unused right now.
-    pub component_id: u8,
-    pub data: SensorData,
-}
-
-#[common_derives]
+#[derive(serde::Serialize, serde::Deserialize, Clone, Debug)]
 #[derive(From)]
-pub enum SensorData {
-    // UtcTime(UtcTime),
-    // Air(Air),
-    // EkfQuat(EkfQuat),
-    // EkfNav1(EkfNav1),
-    // EkfNav2(EkfNav2),
-    // EkfNavAcc(EkfNavAcc),
-    // Imu1(Imu1),
-    // Imu2(Imu2),
-    NavPosLlh(NavPosLlh),
-    // GpsVel(GpsVel),
-    // GpsVelAcc(GpsVelAcc),
-    // GpsPos1(GpsPos1),
-    // GpsPos2(GpsPos2),
-    // GpsPosAcc(GpsPosAcc),
-    ResetReason(ResetReason),
-    RecoverySensing(RecoverySensing),
-    SbgData(SbgData),
+pub enum Gps<'a> {
+    #[serde(borrow)]
+    NavPosLlh(ublox::NavPosLlhRef<'a>),
+    #[serde(borrow)]
+    NavStatus(ublox::NavStatusRef<'a>),
+    #[serde(borrow)]
+    NavDop(ublox::NavDopRef<'a>),
+    #[serde(borrow)]
+    NavPvt(ublox::NavPvtRef<'a>),
+    #[serde(borrow)]
+    NavSolution(ublox::NavSolutionRef<'a>),
+    #[serde(borrow)]
+    NavVelNed(ublox::NavVelNedRef<'a>),
+    #[serde(borrow)]
+    NavHpPosLlh(ublox::NavHpPosLlhRef<'a>),
+    #[serde(borrow)]
+    NavHpPosEcef(ublox::NavHpPosEcefRef<'a>),
+    #[serde(borrow)]
+    NavTimeUTC(ublox::NavTimeUTCRef<'a>),
+    #[serde(borrow)]
+    NavTimeLs(ublox::NavTimeLsRef<'a>),
+    #[serde(borrow)]
+    NavSat(ublox::NavSatRef<'a>),
+    #[serde(borrow)]
+    NavEoe(ublox::NavEoeRef<'a>),
+    #[serde(borrow)]
+    NavOdo(ublox::NavOdoRef<'a>),
+    #[serde(borrow)]
+    CfgOdo(ublox::CfgOdoRef<'a>),
+    #[serde(borrow)]
+    MgaAck(ublox::MgaAckRef<'a>),
+    #[serde(borrow)]
+    MgaGpsIono(ublox::MgaGpsIonoRef<'a>),
+    #[serde(borrow)]
+    MgaGpsEph(ublox::MgaGpsEphRef<'a>),
+    #[serde(borrow)]
+    MgaGloEph(ublox::MgaGloEphRef<'a>),
+    #[serde(borrow)]
+    AlpSrv(ublox::AlpSrvRef<'a>),
+    #[serde(borrow)]
+    AckAck(ublox::AckAckRef<'a>),
+    #[serde(borrow)]
+    AckNak(ublox::AckNakRef<'a>),
+    #[serde(borrow)]
+    CfgItfm(ublox::CfgItfmRef<'a>),
+    #[serde(borrow)]
+    CfgPrtI2c(ublox::CfgPrtI2cRef<'a>),
+    #[serde(borrow)]
+    CfgPrtSpi(ublox::CfgPrtSpiRef<'a>),
+    #[serde(borrow)]
+    CfgPrtUart(ublox::CfgPrtUartRef<'a>),
+    #[serde(borrow)]
+    CfgNav5(ublox::CfgNav5Ref<'a>),
+    #[serde(borrow)]
+    CfgAnt(ublox::CfgAntRef<'a>),
+    #[serde(borrow)]
+    CfgTmode2(ublox::CfgTmode2Ref<'a>),
+    #[serde(borrow)]
+    CfgTmode3(ublox::CfgTmode3Ref<'a>),
+    #[serde(borrow)]
+    CfgTp5(ublox::CfgTp5Ref<'a>),
+    #[serde(borrow)]
+    InfError(ublox::InfErrorRef<'a>),
+    #[serde(borrow)]
+    InfWarning(ublox::InfWarningRef<'a>),
+    #[serde(borrow)]
+    InfNotice(ublox::InfNoticeRef<'a>),
+    #[serde(borrow)]
+    InfTest(ublox::InfTestRef<'a>),
+    #[serde(borrow)]
+    InfDebug(ublox::InfDebugRef<'a>),
+    #[serde(borrow)]
+    RxmRawx(ublox::RxmRawxRef<'a>),
+    #[serde(borrow)]
+    TimTp(ublox::TimTpRef<'a>),
+    #[serde(borrow)]
+    TimTm2(ublox::TimTm2Ref<'a>),
+    #[serde(borrow)]
+    MonVer(ublox::MonVerRef<'a>),
+    #[serde(borrow)]
+    MonGnss(ublox::MonGnssRef<'a>),
+    #[serde(borrow)]
+    MonHw(ublox::MonHwRef<'a>),
+    #[serde(borrow)]
+    RxmRtcm(ublox::RxmRtcmRef<'a>),
+    #[serde(borrow)]
+    EsfMeas(ublox::EsfMeasRef<'a>),
+    #[serde(borrow)]
+    EsfIns(ublox::EsfInsRef<'a>),
+    #[serde(borrow)]
+    HnrAtt(ublox::HnrAttRef<'a>),
+    #[serde(borrow)]
+    HnrIns(ublox::HnrInsRef<'a>),
+    #[serde(borrow)]
+    HnrPvt(ublox::HnrPvtRef<'a>),
+    #[serde(borrow)]
+    NavAtt(ublox::NavAttRef<'a>),
+    #[serde(borrow)]
+    NavClock(ublox::NavClockRef<'a>),
+    #[serde(borrow)]
+    NavVelECEF(ublox::NavVelECEFRef<'a>),
+    #[serde(borrow)]
+    MgaGpsEPH(ublox::MgaGpsEPHRef<'a>),
+    #[serde(borrow)]
+    RxmSfrbx(ublox::RxmSfrbxRef<'a>),
+    #[serde(borrow)]
+    EsfRaw(ublox::EsfRawRef<'a>),
+    #[serde(borrow)]
+    TimSvin(ublox::TimSvinRef<'a>),
+    #[serde(borrow)]
+    SecUniqId(ublox::SecUniqIdRef<'a>),
 }
 
 #[common_derives]
@@ -39,23 +125,10 @@ pub enum SbgData {
     UtcTime(UtcTime),
     Air(Air),
     EkfQuat(EkfQuat),
-    EkfNav1(EkfNav1),
-    EkfNav2(EkfNav2),
-    EkfNavAcc(EkfNavAcc),
-    Imu1(Imu1),
-    Imu2(Imu2),
+    EkfNav(EkfNav),
+    Imu(Imu),
     GpsVel(GpsVel),
-    GpsVelAcc(GpsVelAcc),
-    GpsPos1(GpsPos1),
-    GpsPos2(GpsPos2),
-    GpsPosAcc(GpsPosAcc),
-}
-
-#[common_derives]
-pub struct NavPosLlh {
-    pub height_msl: f64,
-    pub longitude: f64,
-    pub latitude: f64,
+    GpsPos(GpsPos),
 }
 
 /* Replace with new health monitor */
@@ -92,25 +165,17 @@ pub enum ResetReason {
 }
 
 #[common_derives]
-pub struct GpsPos1 {
+pub struct GpsPos {
     #[doc = "< Latitude in degrees, positive north."]
     pub latitude: Option<f64>,
     #[doc = "< Longitude in degrees, positive east."]
     pub longitude: Option<f64>,
-}
-
-#[common_derives]
-pub struct GpsPos2 {
     #[doc = "< GPS time of week in ms."]
     pub time_of_week: Option<u32>,
     #[doc = "< Altitude difference between the geoid and the Ellipsoid in meters (Height above Ellipsoid = altitude + undulation)."]
     pub undulation: Option<f32>,
     #[doc = "< Altitude above Mean Sea Level in meters."]
     pub altitude: Option<f64>,
-}
-
-#[common_derives]
-pub struct GpsPosAcc {
     #[doc = "< Time in us since the sensor power up."]
     pub time_stamp: u32,
     #[doc = "< GPS position status, type and bitmask."]
@@ -184,25 +249,17 @@ pub struct EkfQuat {
 }
 
 #[common_derives]
-pub struct EkfNavAcc {
+pub struct EkfNav {
     #[doc = "< EKF solution status bitmask and enum."]
     pub status: EkfStatus,
     #[doc = "< North, East, Down velocity 1 sigma standard deviation in m.s^-1."]
     pub velocity_std_dev: Option<[f32; 3usize]>,
     #[doc = "< Latitude, longitude and altitude 1 sigma standard deviation in meters."]
     pub position_std_dev: Option<[f32; 3usize]>,
-}
-
-#[common_derives]
-pub struct EkfNav1 {
     #[doc = "< Time in us since the sensor power up."]
     pub time_stamp: u32,
     #[doc = "< North, East, Down velocity in m.s^-1."]
     pub velocity: Option<[f32; 3usize]>,
-}
-
-#[common_derives]
-pub struct EkfNav2 {
     #[doc = "< Latitude, Longitude in degrees positive North and East.\nAltitude above Mean Sea Level in meters."]
     pub position: Option<[f64; 3usize]>,
     #[doc = "< Altitude difference between the geoid and the Ellipsoid in meters (Height above Ellipsoid = altitude + undulation)."]
@@ -210,7 +267,7 @@ pub struct EkfNav2 {
 }
 
 #[common_derives]
-pub struct Imu1 {
+pub struct Imu {
     #[doc = "< Time in us since the sensor power up."]
     pub time_stamp: u32,
     #[doc = "< IMU status bitmask."]
@@ -219,10 +276,6 @@ pub struct Imu1 {
     pub accelerometers: Option<[f32; 3usize]>,
     #[doc = "< X, Y, Z gyroscopes in rad.s^-1."]
     pub gyroscopes: Option<[f32; 3usize]>,
-}
-
-#[common_derives]
-pub struct Imu2 {
     #[doc = "< Internal temperature in °C."]
     pub temperature: Option<f32>,
     #[doc = "< X, Y, Z delta velocity in m.s^-2."]
@@ -243,10 +296,6 @@ pub struct GpsVel {
     pub velocity: Option<[f32; 3usize]>,
     #[doc = "< Track ground course in degrees."]
     pub course: Option<f32>,
-}
-
-#[common_derives]
-pub struct GpsVelAcc {
     #[doc = "< Course accuracy in degrees."]
     pub course_acc: Option<f32>,
     #[doc = "< GPS North, East, Down velocity 1 sigma accuracy in m.s^-1."]
@@ -259,13 +308,4 @@ pub struct RecoverySensing {
     pub main_current: u16,
     pub drogue_voltage: u16,
     pub main_voltage: u16,
-}
-
-impl Sensor {
-    pub fn new(data: impl Into<SensorData>) -> Self {
-        Sensor {
-            component_id: 0,
-            data: data.into(),
-        }
-    }
 }
