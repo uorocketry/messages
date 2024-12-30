@@ -18,7 +18,7 @@ bitflags = { version = "2.3.1", features = ["serde"] }
 proptest = { version = "1.2.0", optional = true }
 proptest-derive = { version = "0.3.0", optional = true }
 messages-proc-macros-lib = { path = "messages-proc-macros-lib" }
-chrono = { git = "https://github.com/uorocketry/chrono", features = ["serde", "arbitrary"], default-features = false}
+chrono = { git = "https://github.com/uorocketry/chrono", features = ["serde"], default-features = false }
 ublox = { git = "https://github.com/uorocketry/ublox", features = ["serde"], default-features = false }
 
 [dev-dependencies]
@@ -28,4 +28,4 @@ postcard = { version = "1.0.4", features = ["alloc"] }
 
 [features]
 default = ["mavlink/embedded-hal-02", "mavlink/uorocketry"]
-std = ["chrono/std", "mavlink/std", "mavlink/tcp", "mavlink/udp", "mavlink/direct-serial", "mavlink/serde", "dep:proptest", "dep:proptest-derive"]
+std = ["chrono/std", "chrono/arbitrary", "mavlink/std", "mavlink/tcp", "mavlink/udp", "mavlink/direct-serial", "mavlink/serde", "dep:proptest", "dep:proptest-derive"]
