@@ -21,17 +21,15 @@ mavlink = { git = "https://github.com/uorocketry/rust-mavlink.git", features = [
 bitflags = { version = "2.3.1", features = ["serde"] }
 proptest = { version = "1.2.0", optional = true }
 proptest-derive = { version = "0.3.0", optional = true }
-proptest-arbitrary-interop = { version = "0.1.0", optional = true }
 messages-proc-macros-lib = { path = "messages-proc-macros-lib" }
-chrono = { git = "https://github.com/uorocketry/chrono", features = ["serde", "arbitrary"], default-features = false}
+chrono = { git = "https://github.com/uorocketry/chrono", features = ["serde"], default-features = false }
 ublox = { git = "https://github.com/uorocketry/ublox", features = ["serde"], default-features = false }
 
 [dev-dependencies]
 proptest = "1.2.0"
 proptest-derive = "0.3.0"
 postcard = { version = "1.0.4", features = ["alloc"] }
-proptest-arbitrary-interop = "0.1.0"
 
 [features]
 default = ["mavlink/embedded-hal-02", "mavlink/uorocketry"]
-std = ["chrono/std", "mavlink/std", "mavlink/tcp", "mavlink/udp", "mavlink/direct-serial", "mavlink/serde", "dep:proptest-arbitrary-interop", "dep:proptest", "dep:proptest-derive"]
+std = ["chrono/std", "chrono/arbitrary", "mavlink/std", "mavlink/tcp", "mavlink/udp", "mavlink/direct-serial", "mavlink/serde", "dep:proptest", "dep:proptest-derive"]
