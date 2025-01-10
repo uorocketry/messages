@@ -69,7 +69,7 @@ pub struct CanMessage {
 #[common_derives]
 #[derive(From)]
 pub enum Common {
-    ResetReason(sensor::ResetReason),
+    ResetReason(stm32h7xx_hal::rcc::ResetReason),
     Command(command::Command), 
     Log(Log),
 }
