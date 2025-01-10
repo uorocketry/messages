@@ -20,7 +20,7 @@ proptest-derive = { version = "0.3.0", optional = true }
 messages-proc-macros-lib = { path = "messages-proc-macros-lib" }
 chrono = { git = "https://github.com/uorocketry/chrono", features = ["serde"], default-features = false }
 ublox = { git = "https://github.com/uorocketry/ublox", features = ["serde"], default-features = false }
-stm32h7xx-hal = { path = "/home/bonjour/Rocketry/stm32h7xx-hal", features = ["defmt", "rt", "stm32h735", "can", "rtc"] }
+stm32h7xx-hal = { git = "https://github.com/uorocketry/stm32h7xx-hal", features = ["defmt", "rt", "stm32h735", "can", "rtc"] }
 
 [dev-dependencies]
 proptest = "1.2.0"
