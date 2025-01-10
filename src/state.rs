@@ -1,12 +1,12 @@
 use messages_proc_macros_lib::common_derives;
 
-#[common_derives]
-pub struct State {
-    pub data: StateData,
-}
+// #[common_derives]
+// pub struct State {
+//     pub data: StateData,
+// }
 
 #[common_derives]
-pub enum StateData {
+pub enum State {
     Initializing,
     WaitForTakeoff,
     Ascent,
@@ -16,8 +16,8 @@ pub enum StateData {
     Abort,
 }
 
-impl State {
-    pub fn new(data: impl Into<StateData>) -> Self {
-        State { data: data.into() }
-    }
-}
+// impl State {
+//     pub fn new(data: impl Into<StateData>) -> Self {
+//         State { data: data.into() }
+//     }
+// }
