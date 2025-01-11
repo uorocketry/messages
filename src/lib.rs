@@ -72,15 +72,20 @@ pub enum Common {
     ResetReason(stm32h7xx_hal::rcc::ResetReason),
     Command(command::Command), 
     Log(Log),
+    State(state::State),
 }
+
+pub type Temperature = (u8, f32);
+pub type Pressure = (u8, f32);
+pub type Strain = (u8, f32);
 
 #[common_derives]
 #[serde(rename_all = "lowercase")]
 pub enum CanData {
     Common(Common),
-    Temperature(u8, f32), // sensor id, temperature
-    Pressure(u8, f32),
-    Strain(u8, f32),
+    Temperature(Temperature), // sensor id, temperature
+    Pressure(Pressure),
+    Strain(Strain),
 }
 
 #[derive(serde::Serialize, serde::Deserialize, Clone, Debug)]
@@ -88,7 +93,6 @@ pub enum CanData {
 #[serde(rename_all = "lowercase")]
 pub enum RadioData<'a> {
     Common(Common),
-    State(State),
     Sbg(sensor::SbgData),
     #[serde(borrow)]
     Gps(sensor::Gps<'a>),
