@@ -72,7 +72,7 @@ pub enum Common {
     ResetReason(stm32h7xx_hal::rcc::ResetReason),
     Command(command::Command), 
     Log(Log),
-    State(state::State),
+    DeviceState(state::DeviceState),
 }
 
 pub type Temperature = (u8, f32);
