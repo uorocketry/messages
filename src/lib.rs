@@ -6,7 +6,6 @@
 //! and ground-station communication.
 
 use crate::node::Node;
-use crate::state::State;
 use chrono::NaiveDateTime;
 use derive_more::From;
 
