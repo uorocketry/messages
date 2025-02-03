@@ -4,8 +4,14 @@ use crate::sensor_status::{
 use derive_more::From;
 use messages_proc_macros_lib::common_derives;
 
-#[derive(serde::Serialize, serde::Deserialize, Clone, Debug)]
-#[derive(From)]
+#[common_derives]
+pub struct AdcSensor {
+    pub adc: u8, // ADC number
+    pub positive_input: ads126x::register::PositiveInpMux,
+    pub negative_input: ads126x::register::NegativeInpMux,
+}
+
+#[derive(serde::Serialize, serde::Deserialize, Clone, Debug, From)]
 pub enum Gps<'a> {
     #[serde(borrow)]
     NavPosLlh(ublox::NavPosLlhRef<'a>),

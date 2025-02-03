@@ -6,7 +6,7 @@
 //! and ground-station communication.
 
 use crate::node::Node;
-use crate::state::State;
+use crate::sensor::AdcSensor;
 use chrono::NaiveDateTime;
 use derive_more::From;
 
@@ -65,19 +65,18 @@ pub struct CanMessage {
     pub data: CanData,
 }
 
-
 #[common_derives]
 #[derive(From)]
 pub enum Common {
     ResetReason(stm32h7xx_hal::rcc::ResetReason),
-    Command(command::Command), 
+    Command(command::Command),
     Log(Log),
     State(state::State),
 }
 
-pub type Temperature = (u8, f32);
-pub type Pressure = (u8, f32);
-pub type Strain = (u8, f32);
+pub type Temperature = (AdcSensor, f32);
+pub type Pressure = (AdcSensor, f32);
+pub type Strain = (AdcSensor, f32);
 
 #[common_derives]
 #[serde(rename_all = "lowercase")]
@@ -88,14 +87,14 @@ pub enum CanData {
     Strain(Strain),
 }
 
-#[derive(serde::Serialize, serde::Deserialize, Clone, Debug)]
-#[derive(From)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, Debug, From)]
 #[serde(rename_all = "lowercase")]
 pub enum RadioData<'a> {
     Common(Common),
     Sbg(sensor::SbgData),
     #[serde(borrow)]
     Gps(sensor::Gps<'a>),
+    CanData(CanData), // all can messages are candiates for radio transmission, but not vice-versa.
 }
 
 impl CanMessage {
@@ -109,7 +108,11 @@ impl CanMessage {
 }
 
 impl<'a> RadioMessage<'a> {
-    pub fn new(timestamp: FormattedNaiveDateTime, node: Node, data: impl Into<RadioData<'a>>) -> Self {
+    pub fn new(
+        timestamp: FormattedNaiveDateTime,
+        node: Node,
+        data: impl Into<RadioData<'a>>,
+    ) -> Self {
         RadioMessage {
             timestamp,
             node,

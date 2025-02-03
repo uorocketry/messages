@@ -22,6 +22,7 @@ chrono = { git = "https://github.com/uorocketry/chrono", features = ["serde"], d
 ublox = { git = "https://github.com/uorocketry/ublox", features = ["serde"], default-features = false }
 # The actual version imported does not matter as reset reason is not behind or affected by any feature flags. 
 stm32h7xx-hal = { git = "https://github.com/uorocketry/stm32h7xx-hal", features = ["defmt", "stm32h735"] }
+ads126x = { path = "/home/ns/Rocketry/ads126x" }
 
 [dev-dependencies]
 proptest = "1.2.0"
@@ -30,4 +31,4 @@ postcard = { version = "1.0.4", features = ["alloc"] }
 
 [features]
 default = ["mavlink/embedded-hal-02", "mavlink/uorocketry"]
-std = ["stm32h7xx-hal/arbitrary", "chrono/std", "chrono/arbitrary", "mavlink/std", "mavlink/tcp", "mavlink/udp", "mavlink/direct-serial", "mavlink/serde", "dep:proptest", "dep:proptest-derive"]
+std = ["stm32h7xx-hal/arbitrary", "ads126x/arbitrary","chrono/std", "chrono/arbitrary", "mavlink/std", "mavlink/tcp", "mavlink/udp", "mavlink/direct-serial", "mavlink/serde", "dep:proptest", "dep:proptest-derive"]

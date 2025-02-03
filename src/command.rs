@@ -4,7 +4,7 @@ use messages_proc_macros_lib::common_derives;
 
 #[common_derives]
 #[derive(From)]
-pub enum Command{
+pub enum Command {
     DeployDrogue(DeployDrogue),
     DeployMain(DeployMain),
     PowerDown(PowerDown),
@@ -33,7 +33,7 @@ pub struct DeployMain {
 #[common_derives]
 #[derive(From)]
 pub struct PowerDown {
-    pub board: Node, 
+    pub board: Node,
 }
 
 #[common_derives]
