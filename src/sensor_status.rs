@@ -150,7 +150,7 @@ bitflags! {
 #[common_derives]
 #[derive(Copy)]
 pub struct AirStatus {
-    status: u16,
+    pub status: u16,
 }
 
 impl AirStatus {
