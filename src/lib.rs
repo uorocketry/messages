@@ -26,6 +26,8 @@ pub const MAX_SIZE_RADIO: usize = 255;
 use defmt::Format;
 pub use logging::{ErrorContext, Event, Log, LogLevel};
 
+use crate::state::State;
+
 #[derive(serde::Serialize, serde::Deserialize, Clone, Debug)]
 #[cfg_attr(all(feature = "std", test), derive(proptest_derive::Arbitrary))]
 pub struct FormattedNaiveDateTime(pub NaiveDateTime);
